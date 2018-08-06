@@ -8,11 +8,12 @@
 
 package com.example.android.justjava;
 
-
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +31,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     int numberOfCoffees = 0;
+    //String name;
     Toast toast;
+    //boolean hasWhippedCream;
+    //boolean hasChocolate;
 
     /**
      * This method is called when the + button is clicked.  Changed to allow maximum 5 coffees.
@@ -41,11 +45,11 @@ public class MainActivity extends AppCompatActivity {
         if (numberOfCoffees <= 4) {
             try {
                 toast.cancel();
+            } catch (Exception e) {
             }
-            catch (Exception e){}
 
             numberOfCoffees += 1;
-            display(numberOfCoffees);
+            displayQuantity(numberOfCoffees);
 
         } else {
             toast = Toast.makeText(getApplicationContext(), "Max 5 coffees per order",
@@ -63,10 +67,10 @@ public class MainActivity extends AppCompatActivity {
         if (numberOfCoffees >= 1) {
             try {
                 toast.cancel();
+            } catch (Exception e) {
             }
-            catch (Exception e){}
             numberOfCoffees -= 1;
-            display(numberOfCoffees);
+            displayQuantity(numberOfCoffees);
 
         } else {
             toast = Toast.makeText(getApplicationContext(), "Negative number not allowed",
@@ -79,28 +83,77 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked. Updates the total price shown.
      */
     public void submitOrder(View view) {
-        String priceMessage = "Total: $" + (numberOfCoffees * 5) + "\nThank you!";
-        displayMessage(priceMessage);
+
+        // get user's name from EditText field
+        EditText nameField = findViewById(R.id.name_field);
+        String name = nameField.getText().toString();
+
+        // figure out if user wants whipped cream
+        CheckBox whippedCreamCheckBox = findViewById(R.id.whipped_cream_checkbox);
+        boolean hasWhippedCream = whippedCreamCheckBox.isChecked();
+        // Log.v("MainActivity", "Has whipped cream?" + hasWhippedCream);
+
+        //figure out if user wants chocolate
+        CheckBox chocolateCheckBox = findViewById(R.id.chocolate_checkbox);
+        boolean hasChocolate = chocolateCheckBox.isChecked();
+        // Log.v("MainActivity", "Has chocolate?" + hasChocolate);
+
+        int totalPrice = calculatePrice(hasWhippedCream, hasChocolate);
+        String summary = createOrderSummary(name, totalPrice, hasWhippedCream, hasChocolate);
+        //String priceMessage = "Total: $" + totalPrice + "\nThank you!";
+        displayMessage(summary);
     }
+
+    /**
+     * @param nameEntered            is the user's name entered on the EditText field at the top of the layout
+     * @param priceAmount     is the total price of the order
+     * @param addWhippedCream is whether or not the user wants whipped cream
+     * @param addChocolate    is whether or not user wants chocolate
+     * @return text summary
+     */
+
+    private String createOrderSummary(String nameEntered, int priceAmount, boolean addWhippedCream, boolean addChocolate) {
+        String orderSummary = "Name: " + nameEntered;
+        orderSummary += "\nAdd whipped cream? " + addWhippedCream;
+        orderSummary += "\nAdd chocolate? " + addChocolate;
+        orderSummary += "\nQuantity: " + numberOfCoffees;
+        orderSummary += "\nTotal: $" + priceAmount;
+        orderSummary += "\nThank you!";
+        return orderSummary;
+    }
+
+    private int calculatePrice(boolean addWhippedCream, boolean addChocolate) {
+        // Price of 1 cup of coffee
+        int basePrice = 5;
+        if (addWhippedCream) {
+            basePrice += 1;
+        }
+        if (addChocolate) {
+            basePrice += 2;
+        }
+        return numberOfCoffees * basePrice;
+    }
+
 
     /*
      * This method displays the given quantity on the screen.
      */
-    private void display(int number) {
+    private void displayQuantity(int howMany) {
         TextView quantityTextView = (TextView) findViewById(R.id.quantity_number_text_view);
-        quantityTextView.setText("" + number);
+        quantityTextView.setText("" + howMany);
     }
 
     /*
     This method displays the given quantity value on the screen.
-     */
+
     private void displayPrice(int totalPrice) {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
+        TextView priceTextView = (TextView) findViewById(R.id.order_summary_text_view);
         priceTextView.setText(NumberFormat.getCurrencyInstance().format(totalPrice));
     }
+    */
 
     private void displayMessage(String message) {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
+        TextView priceTextView = (TextView) findViewById(R.id.order_summary_text_view);
         priceTextView.setText(message);
     }
 
