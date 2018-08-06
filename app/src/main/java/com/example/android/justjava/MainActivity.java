@@ -8,6 +8,8 @@
 
 package com.example.android.justjava;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    int numberOfCoffees = 0;
+    int numberOfCoffees = 1;
     //String name;
     Toast toast;
     //boolean hasWhippedCream;
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
      * If user taps valid selection, cancel any existing toast
      */
     public void decrement(View view) {
-        if (numberOfCoffees >= 1) {
+        if (numberOfCoffees > 1) {
             try {
                 toast.cancel();
             } catch (Exception e) {
@@ -73,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             displayQuantity(numberOfCoffees);
 
         } else {
-            toast = Toast.makeText(getApplicationContext(), "Negative number not allowed",
+            toast = Toast.makeText(getApplicationContext(), "You cannot have less than 1 coffee",
                     Toast.LENGTH_LONG);
             toast.show();
         }
@@ -102,6 +104,16 @@ public class MainActivity extends AppCompatActivity {
         String summary = createOrderSummary(name, totalPrice, hasWhippedCream, hasChocolate);
         //String priceMessage = "Total: $" + totalPrice + "\nThank you!";
         displayMessage(summary);
+
+
+        Intent intent = new Intent(Intent.ACTION_SENDTO);  // creates new object instance called intent
+        intent.setData(Uri.parse("mailto:")); // onlye email apps should handle this
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Just Java order for " + name);  // populate our subject line
+        intent.putExtra(Intent.EXTRA_TEXT, summary);  // put our summary into the body of the email
+
+        if (intent.resolveActivity(getPackageManager()) != null) {  // make sure we don't crash if no email app on device
+            startActivity(intent);
+        }
     }
 
     /**
