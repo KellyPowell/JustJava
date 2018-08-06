@@ -2,7 +2,7 @@
  * IMPORTANT: Make sure you are using the correct package name.
  * This example uses the package name:
  * package com.example.android.justjava
- * If you get an error when copying this code into Android studio, update it to match teh package name found
+ * If you get an error when copying this code into Android studio, update it to match the package name found
  * in the project's AndroidManifest.xml file.
  **/
 
@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -26,15 +25,25 @@ import java.text.NumberFormat;
  */
 public class MainActivity extends AppCompatActivity {
 
+    private static final String THANK_YOU = "\nThank you!";
+    private static final String TOTAL_$ = "\nTotal: $";
+    private static final String QUANTITY = "\nQuantity: ";
+    private static final String ADD_CHOCOLATE = "\nAdd chocolate? ";
+    private static final String ADD_WHIPPED_CREAM = "\nAdd whipped cream? ";
+    private static final String NAME = "Name: ";
+    private static final String JUST_JAVA_ORDER_FOR = "Just Java order for ";
+    private static final String YOU_CANNOT_HAVE_LESS_THAN_1_COFFEE = "You cannot have less than 1 coffee";
+    private static final String MAX_5_COFFEES_PER_ORDER = "Max 5 coffees per order";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
 
-    int numberOfCoffees = 1;
+    private int numberOfCoffees = 1;
     //String name;
-    Toast toast;
+    private Toast toast;
     //boolean hasWhippedCream;
     //boolean hasChocolate;
 
@@ -54,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             displayQuantity(numberOfCoffees);
 
         } else {
-            toast = Toast.makeText(getApplicationContext(), "Max 5 coffees per order",
+            toast = Toast.makeText(getApplicationContext(), MAX_5_COFFEES_PER_ORDER,
                     Toast.LENGTH_LONG);
             toast.show();
         }
@@ -75,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             displayQuantity(numberOfCoffees);
 
         } else {
-            toast = Toast.makeText(getApplicationContext(), "You cannot have less than 1 coffee",
+            toast = Toast.makeText(getApplicationContext(), YOU_CANNOT_HAVE_LESS_THAN_1_COFFEE,
                     Toast.LENGTH_LONG);
             toast.show();
         }
@@ -103,12 +112,13 @@ public class MainActivity extends AppCompatActivity {
         int totalPrice = calculatePrice(hasWhippedCream, hasChocolate);
         String summary = createOrderSummary(name, totalPrice, hasWhippedCream, hasChocolate);
         //String priceMessage = "Total: $" + totalPrice + "\nThank you!";
-        displayMessage(summary);
+
+        // displayMessage(summary);  no need to display summary in the app, we're emailing instead
 
 
         Intent intent = new Intent(Intent.ACTION_SENDTO);  // creates new object instance called intent
         intent.setData(Uri.parse("mailto:")); // onlye email apps should handle this
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Just Java order for " + name);  // populate our subject line
+        intent.putExtra(Intent.EXTRA_SUBJECT, JUST_JAVA_ORDER_FOR + name);  // populate our subject line
         intent.putExtra(Intent.EXTRA_TEXT, summary);  // put our summary into the body of the email
 
         if (intent.resolveActivity(getPackageManager()) != null) {  // make sure we don't crash if no email app on device
@@ -125,12 +135,12 @@ public class MainActivity extends AppCompatActivity {
      */
 
     private String createOrderSummary(String nameEntered, int priceAmount, boolean addWhippedCream, boolean addChocolate) {
-        String orderSummary = "Name: " + nameEntered;
-        orderSummary += "\nAdd whipped cream? " + addWhippedCream;
-        orderSummary += "\nAdd chocolate? " + addChocolate;
-        orderSummary += "\nQuantity: " + numberOfCoffees;
-        orderSummary += "\nTotal: $" + priceAmount;
-        orderSummary += "\nThank you!";
+        String orderSummary = NAME + nameEntered;
+        orderSummary += ADD_WHIPPED_CREAM + addWhippedCream;
+        orderSummary += ADD_CHOCOLATE + addChocolate;
+        orderSummary += QUANTITY + numberOfCoffees;
+        orderSummary += TOTAL_$ + priceAmount;
+        orderSummary += THANK_YOU;
         return orderSummary;
     }
 
@@ -151,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
      * This method displays the given quantity on the screen.
      */
     private void displayQuantity(int howMany) {
-        TextView quantityTextView = (TextView) findViewById(R.id.quantity_number_text_view);
+        TextView quantityTextView = findViewById(R.id.quantity_number_text_view);
         quantityTextView.setText("" + howMany);
     }
 
@@ -164,10 +174,10 @@ public class MainActivity extends AppCompatActivity {
     }
     */
 
-    private void displayMessage(String message) {
-        TextView priceTextView = (TextView) findViewById(R.id.order_summary_text_view);
-        priceTextView.setText(message);
-    }
+//    private void displayMessage(String message) {
+//        TextView priceTextView = (TextView) findViewById(R.id.order_summary_text_view);
+//        priceTextView.setText(message);
+//    }
 
 
 }
