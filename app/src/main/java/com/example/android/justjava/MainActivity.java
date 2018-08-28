@@ -54,9 +54,8 @@ public class MainActivity extends AppCompatActivity {
      */
     public void increment(View view) {
         if (numberOfCoffees <= 4) {
-            try {
+            if (toast != null) {
                 toast.cancel();
-            } catch (Exception e) {
             }
 
             numberOfCoffees += 1;
@@ -76,9 +75,8 @@ public class MainActivity extends AppCompatActivity {
      */
     public void decrement(View view) {
         if (numberOfCoffees > 1) {
-            try {
+            if (toast != null) {
                 toast.cancel();
-            } catch (Exception e) {
             }
             numberOfCoffees -= 1;
             displayQuantity(numberOfCoffees);
@@ -113,17 +111,18 @@ public class MainActivity extends AppCompatActivity {
         String summary = createOrderSummary(name, totalPrice, hasWhippedCream, hasChocolate);
         //String priceMessage = "Total: $" + totalPrice + "\nThank you!";
 
-        // displayMessage(summary);  no need to display summary in the app, we're emailing instead
+        displayMessage(summary);  //no need to display summary in the app, we're emailing instead
 
-
+/*
         Intent intent = new Intent(Intent.ACTION_SENDTO);  // creates new object instance called intent
-        intent.setData(Uri.parse("mailto:")); // onlye email apps should handle this
+        intent.setData(Uri.parse("mailto:kpmbconnect@gmail.com")); // only email apps should handle this
         intent.putExtra(Intent.EXTRA_SUBJECT, JUST_JAVA_ORDER_FOR + name);  // populate our subject line
         intent.putExtra(Intent.EXTRA_TEXT, summary);  // put our summary into the body of the email
 
         if (intent.resolveActivity(getPackageManager()) != null) {  // make sure we don't crash if no email app on device
             startActivity(intent);
         }
+        */
     }
 
     /**
@@ -165,19 +164,19 @@ public class MainActivity extends AppCompatActivity {
         quantityTextView.setText("" + howMany);
     }
 
-    /*
-    This method displays the given quantity value on the screen.
+
+    //This method displays the given quantity value on the screen.
 
     private void displayPrice(int totalPrice) {
         TextView priceTextView = (TextView) findViewById(R.id.order_summary_text_view);
         priceTextView.setText(NumberFormat.getCurrencyInstance().format(totalPrice));
     }
-    */
 
-//    private void displayMessage(String message) {
-//        TextView priceTextView = (TextView) findViewById(R.id.order_summary_text_view);
-//        priceTextView.setText(message);
-//    }
+
+   private void displayMessage(String message) {
+       TextView priceTextView = (TextView) findViewById(R.id.order_summary_text_view);
+       priceTextView.setText(message);
+   }
 
 
 }

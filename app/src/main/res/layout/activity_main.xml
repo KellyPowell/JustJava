@@ -11,6 +11,7 @@
 
         <EditText
             android:id="@+id/name_field"
+            android:maxLength="30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/name"
@@ -19,13 +20,10 @@
 
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/toppings"
+            style="@style/HeaderTextStyle"
             android:layout_marginBottom="16dp"
-            android:text="@string/toppings"
-            android:textAllCaps="true"
-            android:textColor="@android:color/darker_gray"
-            android:textStyle="bold" />
+            android:text="@string/toppings" />
 
         <CheckBox
             android:id="@+id/whipped_cream_checkbox"
@@ -46,19 +44,17 @@
             android:textSize="16sp" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/quantity"
+            style="@style/HeaderTextStyle"
             android:layout_marginBottom="16dp"
-            android:text="@string/quantity"
-            android:textAllCaps="true"
-            android:textColor="@android:color/darker_gray"
-            android:textStyle="bold" />
+            android:text="@string/quantity" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <Button
+                android:id="@+id/minusButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginRight="8dp"
@@ -75,6 +71,7 @@
                 android:textSize="16sp" />
 
             <Button
+                android:id="@+id/plusButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:onClick="increment"
@@ -83,13 +80,10 @@
         </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/orderSummaryHeader"
+            style="@style/HeaderTextStyle"
             android:layout_marginTop="16dp"
-            android:text="@string/order_summary"
-            android:textAllCaps="true"
-            android:textColor="@android:color/darker_gray"
-            android:textStyle="bold" />
+            android:text="@string/order_summary" />
 
         <TextView
             android:id="@+id/order_summary_text_view"
@@ -102,6 +96,7 @@
             android:textSize="16sp" />
 
         <Button
+            android:id="@+id/orderButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"

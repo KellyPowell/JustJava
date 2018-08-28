@@ -7,4 +7,6 @@
     <string name="quantity">Quantity</string>
     <string name="order_summary">Order Summary</string>
     <string name="order">Order</string>
+    <string name="min_count_toast">You cannot have less than 1 coffee</string>
+    <string name="max_count_toast">Max 5 coffees per order</string>
 </resources>
