@@ -8,8 +8,6 @@
 
 package com.example.android.justjava;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -168,13 +166,13 @@ public class MainActivity extends AppCompatActivity {
     //This method displays the given quantity value on the screen.
 
     private void displayPrice(int totalPrice) {
-        TextView priceTextView = (TextView) findViewById(R.id.order_summary_text_view);
+        TextView priceTextView = findViewById(R.id.order_summary_text_view);
         priceTextView.setText(NumberFormat.getCurrencyInstance().format(totalPrice));
     }
 
 
    private void displayMessage(String message) {
-       TextView priceTextView = (TextView) findViewById(R.id.order_summary_text_view);
+       TextView priceTextView = findViewById(R.id.order_summary_text_view);
        priceTextView.setText(message);
    }
 
