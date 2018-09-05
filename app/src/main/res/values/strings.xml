@@ -9,4 +9,5 @@
     <string name="order">Order</string>
     <string name="min_count_toast">You cannot have less than 1 coffee</string>
     <string name="max_count_toast">Max 5 coffees per order</string>
+    <string name="zero_price">$0</string>
 </resources>
